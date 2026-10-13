@@ -1,0 +1,125 @@
+name: Build Windows EXE (Win 7-10-11)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build-windows-exe:
+    runs-on: windows-latest
+
+    steps:
+      # 1. جلب ملف index.html من المستودع
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. إعداد بيئة Node.js على خادم ويندوز السحابي
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. إنشاء ملفات تطبيق سطح المكتب (Electron 22 المتوافق مع ويندوز 7 و 10 و 11)
+      - name: Generate Electron Desktop Wrapper
+        shell: bash
+        run: |
+          cat << 'EOF' > package.json
+          {
+            "name": "mosque-manager-desktop",
+            "version": "1.1.0",
+            "description": "إدارة الحلقات القرآنية - نسخة الحاسوب",
+            "main": "main.js",
+            "author": "MosqueManager",
+            "scripts": {
+              "dist": "electron-builder --win portable --x64 --ia32"
+            },
+            "build": {
+              "appId": "com.mosquemanager.desktop",
+              "productName": "MosqueManager",
+              "win": {
+                "target": [
+                  {
+                    "target": "portable",
+                    "arch": ["x64", "ia32"]
+                  }
+                ]
+              },
+              "portable": {
+                "artifactName": "MosqueManager-${arch}.exe"
+              }
+            },
+            "devDependencies": {
+              "electron": "22.3.27",
+              "electron-builder": "^24.13.3"
+            }
+          }
+          EOF
+
+          cat << 'EOF' > preload.js
+          const { contextBridge, ipcRenderer } = require('electron');
+          contextBridge.exposeInMainWorld('electronAPI', {
+            loadDbSync: () => ipcRenderer.sendSync('load-db-sync'),
+            saveDb: (jsonStr) => ipcRenderer.send('save-db', jsonStr)
+          });
+          EOF
+
+          cat << 'EOF' > main.js
+          const { app, BrowserWindow, ipcMain } = require('electron');
+          const path = require('path');
+          const fs = require('fs');
+
+          const dbFilePath = path.join(app.getPath('userData'), 'mosqueDB.json');
+
+          ipcMain.on('load-db-sync', (event) => {
+            try {
+              if (fs.existsSync(dbFilePath)) {
+                event.returnValue = fs.readFileSync(dbFilePath, 'utf-8');
+                return;
+              }
+            } catch (e) {}
+            event.returnValue = null;
+          });
+
+          ipcMain.on('save-db', (event, jsonStr) => {
+            try {
+              fs.writeFileSync(dbFilePath, jsonStr, 'utf-8');
+            } catch (e) {}
+          });
+
+          function createWindow() {
+            const win = new BrowserWindow({
+              width: 1280,
+              height: 820,
+              minWidth: 900,
+              minHeight: 620,
+              title: 'إدارة الحلقات القرآنية',
+              autoHideMenuBar: true,
+              webPreferences: {
+                preload: path.join(__dirname, 'preload.js'),
+                contextIsolation: true,
+                nodeIntegration: false
+              }
+            });
+            win.loadFile('index.html');
+          }
+
+          app.whenReady().then(createWindow);
+          app.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') app.quit();
+          });
+          EOF
+
+      # 4. تثبيت الحزم وبناء ملفات الـ EXE
+      - name: Install & Build Windows EXE
+        shell: bash
+        run: |
+          npm install
+          npx electron-builder --win portable --x64 --ia32
+
+      # 5. رفع ملفات الـ EXE الجاهزة للتحميل
+      - name: Upload Windows EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: MosqueManager-Windows-EXE
+          path: dist/*.exe
