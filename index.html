@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إدارة الحلقات القرآنية - نسخة سطح المكتب</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap');
+
+  :root {
+    --brand-900: #073B34;
+    --brand-800: #0A5247;
+    --brand-700: #0B6659;
+    --brand-600: #0E7C6B;
+    --brand-300: #72C2B0;
+    --brand-200: #A9DCCF;
+    --brand-100: #D3EEE7;
+    --brand-50: #EDF7F4;
+
+    --slate-900: #0F172A;
+    --slate-800: #1E293B;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-500: #64748B;
+    --slate-400: #94A3B8;
+    --slate-300: #D2CEC2;
+    --slate-200: #E5E2D9;
+    --slate-100: #F0EEE8;
+    --slate-50: #F8F7F3;
+
+    --emerald-800: #065F46;
+    --emerald-700: #047857;
+    --emerald-600: #059669;
+    --emerald-500: #10B981;
+    --emerald-300: #6EE7B7;
+    --emerald-200: #A7F3D0;
+    --emerald-100: #D1FAE5;
+    --emerald-50: #ECFDF5;
+
+    --amber-800: #92400E;
+    --amber-700: #B45309;
+    --amber-600: #D97706;
+    --amber-500: #F59E0B;
+    --amber-300: #FCD34D;
+    --amber-50: #FFFBEB;
+
+    --rose-900: #881337;
+    --rose-700: #BE123C;
+    --rose-600: #E11D48;
+    --rose-500: #EF4444;
+    --rose-300: #FDA4AF;
+    --rose-50: #FEF2F2;
+
+    --sky-700: #0369A1;
+    --sky-500: #0EA5E9;
+    --sky-50: #F0F9FF;
+
+    --gold-500: #C9A227;
+    --gold-50: #FBF5E0;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+  }
+
+  body {
+    background-color: var(--slate-50);
+    color: var(--slate-900);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Top App Bar */
+  .top-bar {
+    background: linear-gradient(90deg, var(--brand-800), var(--brand-600));
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(7, 59, 52, 0.18);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .top-bar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mosque-logo-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(201, 162, 39, 0.45);
+  }
+
+  .top-bar-title {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .top-bar-subtitle {
+    font-size: 12px;
+    color: var(--brand-100);
+    font-weight: 500;
+  }
+
+  .top-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Layout Container */
+  .app-container {
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 18px 20px 90px;
+    flex: 1;
+  }
+
+  /* Cards & Surfaces */
+  .surface-card {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  }
+
+  /* Buttons */
+  .btn {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+
+  .btn-primary { background: var(--brand-600); color: #fff; }
+  .btn-emerald { background: var(--emerald-500); color: #fff; }
+  .btn-amber { background: var(--amber-500); color: #fff; }
+  .btn-rose { background: var(--rose-500); color: #fff; }
+  .btn-tonal-brand { background: var(--brand-50); color: var(--brand-700); border: 1px solid var(--brand-200); }
+  .btn-tonal-emerald { background: var(--emerald-50); color: var(--emerald-600); border: 1px solid var(--emerald-200); }
+  .btn-tonal-rose { background: var(--rose-50); color: var(--rose-600); border: 1px solid var(--rose-300); }
+  .btn-tonal-slate { background: var(--slate-100); color: var(--slate-700); border: 1px solid var(--slate-200); }
+  .btn-tonal-amber { background: var(--amber-50); color: var(--amber-700); border: 1px solid var(--amber-300); }
+  .btn-glass { background: rgba(255,255,255,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.22); }
+
+  /* Inputs */
+  .input-field, select.input-field, textarea.input-field {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--slate-300);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--slate-900);
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .input-field:focus {
+    border-color: var(--brand-600);
+    box-shadow: 0 0 0 3px rgba(14, 124, 107, 0.12);
+  }
+
+  /* Grid & Flex Utilities */
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .row-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+
+  /* Stat Card */
+  .stat-card {
+    border-radius: 16px;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid transparent;
+  }
+  .stat-value { font-size: 22px; font-weight: 800; line-height: 1.2; }
+  .stat-label { font-size: 12px; color: var(--slate-600); font-weight: 600; }
+
+  /* Chips */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--slate-300);
+    background: #fff;
+    color: var(--slate-700);
+    user-select: none;
+    transition: all 0.12s;
+  }
+  .chip.active {
+    background: var(--brand-600);
+    color: #fff;
+    border-color: var(--brand-600);
+    font-weight: 700;
+  }
+  .chip.active-emerald { background: var(--emerald-600); color: #fff; border-color: var(--emerald-600); }
+  .chip.active-amber { background: var(--amber-600); color: #fff; border-color: var(--amber-600); }
+  .chip.active-rose { background: var(--rose-600); color: #fff; border-color: var(--rose-600); }
+
+  .badge-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* Navigation Bar */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: #fff;
+    border-top: 1px solid var(--slate-200);
+    box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.06);
+    display: flex;
+    justify-content: center;
+    z-index: 99;
+  }
+  .bottom-nav-inner {
+    max-width: 900px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    padding: 6px 10px;
+    gap: 4px;
+  }
+  .nav-item {
+    border: none;
+    background: transparent;
+    padding: 6px 4px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--slate-500);
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .nav-item.active {
+    background: var(--brand-100);
+    color: var(--brand-800);
+    font-weight: 800;
+  }
+  .nav-item svg { width: 20px; height: 20px; }
+
+  /* Tables */
+  .data-table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--slate-200);
+  }
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 13px;
+  }
+  table.data-table th {
+    background: var(--brand-700);
+    color: #fff;
+    padding: 10px 8px;
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
+  }
+  table.data-table td {
+    padding: 9px 8px;
+    border-bottom: 1px solid var(--slate-200);
+    vertical-align: middle;
+  }
+  table.data-table tr:nth-child(even) { background: var(--slate-50); }
+  table.data-table tr:hover { background: var(--brand-50); }
+
+  /* Modals */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 16px;
+  }
+  .modal-box {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 620px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Toast */
+  #toast-container {
+    position: fixed;
+    bottom: 76px;
+    left: 20px;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .toast-msg {
+    background: var(--slate-900);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    border-right: 4px solid var(--emerald-500);
+  }
+
+  /* Print Styles for PDF export */
+  @media print {
+    .top-bar, .bottom-nav, .no-print, #toast-container { display: none !important; }
+    body { background: #fff; }
+    .app-container { max-width: 100%; padding: 0; margin: 0; }
+    .surface-card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<header class="top-bar">
+  <div class="top-bar-brand">
+    <div class="mosque-logo-box">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M 7.185 2.895 A 10 10 0 1 0 21.105 16.815 A 10 10 0 1 1 7.185 2.895 Z" fill="#DCA94D"/>
+      </svg>
+    </div>
+    <div>
+      <div class="top-bar-title" id="headerTitle">إدارة الحلقات القرآنية</div>
+      <div class="top-bar-subtitle" id="headerSubtitle">نظام المتابعة والتسميع والتقارير المكتبي</div>
+    </div>
+  </div>
+  <div class="top-bar-actions" id="headerActions"></div>
+</header>
+
+<!-- Main Content -->
+<main class="app-container" id="appMain"></main>
+
+<!-- Bottom Navigation (Visible inside a Mosque) -->
+<nav class="bottom-nav" id="bottomNav" style="display:none;">
+  <div class="bottom-nav-inner">
+    <button class="nav-item" data-tab="SETTINGS" onclick="switchTab('SETTINGS')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      <span>الطلبة</span>
+    </button>
+    <button class="nav-item" data-tab="LESSONS" onclick="switchTab('LESSONS')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+      <span>الدروس</span>
+    </button>
+    <button class="nav-item" data-tab="TESTS" onclick="switchTab('TESTS')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span>الاختبارات</span>
+    </button>
+    <button class="nav-item" data-tab="JUZ" onclick="switchTab('JUZ')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+      <span>الجزء</span>
+    </button>
+    <button class="nav-item" data-tab="REPORTS" onclick="switchTab('REPORTS')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+      <span>التقارير</span>
+    </button>
+    <button class="nav-item" data-tab="EXAM_SCHEDULE" onclick="switchTab('EXAM_SCHEDULE')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/></svg>
+      <span>المواعيد</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Modal Container -->
+<div id="modalRoot"></div>
+<div id="toast-container"></div>
+<input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none;" onchange="handleRestoreFile(event)">
+
+<script>
+// ==================== UTILITIES & ARABIC DIGITS ====================
+function toStandardDigits(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/[٠۰]/g, '0').replace(/[١۱]/g, '1').replace(/[٢۲]/g, '2')
+    .replace(/[٣۳]/g, '3').replace(/[٤۴]/g, '4').replace(/[٥۵]/g, '5')
+    .replace(/[٦۶]/g, '6').replace(/[٧۷]/g, '7').replace(/[٨۸]/g, '8')
+    .replace(/[٩۹]/g, '9');
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function generateId() {
+  return '_' + Math.random().toString(36).substring(2, 11) + '_' + Date.now().toString(36);
+}
+
+function getArabicDayName(dateObj) {
+  const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  return days[dateObj.getDay()];
+}
+
+function formatDateDDMMYYYY(dateObj) {
+  const d = String(dateObj.getDate()).padStart(2, '0');
+  const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const y = dateObj.getFullYear();
+  return `${d}/${m}/${y}`;
+}
+
+function numberToArabicOrdinal(n) {
+  const map = {
+    1:'الأول',2:'الثاني',3:'الثالث',4:'الرابع',5:'الخامس',6:'السادس',7:'السابع',8:'الثامن',9:'التاسع',10:'العاشر',
+    11:'الحادي عشر',12:'الثاني عشر',13:'الثالث عشر',14:'الرابع عشر',15:'الخامس عشر',16:'السادس عشر',17:'السابع عشر',
+    18:'الثامن عشر',19:'التاسع عشر',20:'العشرون',21:'الحادي والعشرون',22:'الثاني والعشرون',23:'الثالث والعشرون',
+    24:'الرابع والعشرون',25:'الخامس والعشرون',26:'السادس والعشرون',27:'السابع والعشرون',28:'الثامن والعشرون',
+    29:'التاسع والعشرون',30:'الثلاثون'
+  };
+  return map[n] || String(n);
+}
+
+function showToast(msg) {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = 'toast-msg';
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(() => { el.remove(); }, 2800);
+}
+
+// ==================== CONSTANTS & DEPARTMENTS ====================
+const DEPTS = ['قسم تلاوة', 'قسم رشيدي', 'قسم قرآن غيباً', 'قسم تجويد'];
+const LESSON_TYPES = ['تلاوة', 'رشيدي', 'قرآن غيباً', 'تجويد'];
+const GRADES = ['ممتاز 100', 'ممتاز 95', 'ممتاز', 'جيد جداً 85', 'جيد جداً', 'جيد 75', 'مقبول 60', 'ضعيف', 'إعادة'];
+const BEHAVIORS = ['', 'مؤدب', 'يحتاج هدوء'];
+
+function normalizeDept(dept) {
+  if (!dept) return 'قسم تلاوة';
+  const d = dept.trim();
+  if (d.includes('رشيدي')) return 'قسم رشيدي';
+  if (d.includes('غيب') || d.includes('حفظ')) return 'قسم قرآن غيباً';
+  if (d.includes('تجويد')) return 'قسم تجويد';
+  if (d.includes('تلاوة') || d.includes('قرآن')) return 'قسم تلاوة';
+  return DEPTS.includes(d) ? d : 'قسم تلاوة';
+}
+
+function defaultTypeForDept(dept) {
+  const d = normalizeDept(dept);
+  if (d === 'قسم رشيدي') return 'رشيدي';
+  if (d === 'قسم قرآن غيباً') return 'قرآن غيباً';
+  if (d === 'قسم تجويد') return 'تجويد';
+  return 'تلاوة';
+}
+
+// ==================== STATE & STORAGE (Browser + Electron Native FS) ====================
+let db = { mosques: [] };
+let currentMosqueId = null;
+let currentTab = 'SETTINGS';
+let openedLessonId = null;
+let openedTestId = null;
+let openedExamGroupId = null;
+let ignoredDuplicateKeys = new Set();
+
+// UI Filter States
+let mosqueSearchQuery = '';
+let studentSearchQuery = '';
+let selectedDeptFilter = 'الكل';
+let lessonSearchQuery = '';
+let lessonStatusFilter = 'الكل';
+let testSearchQuery = '';
+let testStatusFilter = 'الكل';
+let juzSearchQuery = '';
+let reportStudentId = 'all';
+let reportFilter = {
+  mode: 'WEEKLY', // WEEKLY, MONTHLY, ALL
+  isWeeklyLast7Days: true,
+  selectedYear: new Date().getFullYear(),
+  selectedMonth: new Date().getMonth() + 1,
+  selectedWeekIndex: 1
+};
+let reportSubView = 'RECORDS'; // RECORDS or REWARDS
+
+function loadDatabase() {
+  try {
+    // 1. Try Electron IPC / Node fs if running inside Electron EXE
+    if (window.electronAPI && typeof window.electronAPI.loadDbSync === 'function') {
+      const raw = window.electronAPI.loadDbSync();
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.mosques)) {
+          db = normalizeDb(parsed);
+          localStorage.setItem('mosqueDB_v1', JSON.stringify(db));
+          return;
+        }
+      }
+    }
+    // 2. Fallback to localStorage
+    const saved = localStorage.getItem('mosqueDB_v1');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && Array.isArray(parsed.mosques)) {
+        db = normalizeDb(parsed);
+      }
+    }
+  } catch (e) {
+    console.error('Error loading DB:', e);
+  }
+}
+
+function saveDatabase() {
+  try {
+    const jsonStr = JSON.stringify(db, null, 2);
+    localStorage.setItem('mosqueDB_v1', jsonStr);
+    if (window.electronAPI && typeof window.electronAPI.saveDb === 'function') {
+      window.electronAPI.saveDb(jsonStr);
+    }
+  } catch (e) {
+    console.error('Error saving DB:', e);
+  }
+}
+
+function getScopedStudents(mosque) {
+  const students = mosque.students || [];
+  if (students.length === 0) return [];
+  const cleanName = (mosque.name || '').trim().toLowerCase();
+  const hasOwn = students.some(s => !s.sourceMosqueName || s.sourceMosqueName.trim().toLowerCase() === cleanName);
+  if (hasOwn) {
+    return students.filter(s => !s.sourceMosqueName || s.sourceMosqueName.trim().toLowerCase() === cleanName);
+  }
+  return students;
+}
+
+function normalizeDb(rawDb) {
+  if (!rawDb || !Array.isArray(rawDb.mosques)) return { mosques: [] };
+  const mosques = rawDb.mosques.map(m => {
+    const students = getScopedStudents(m).map(s => ({
+      id: s.id || generateId(),
+      fullName: (s.fullName || '').trim(),
+      createdAt: s.createdAt || Date.now(),
+      department: normalizeDept(s.department),
+      sourceMosqueName: m.name
+    }));
+    const scopedIds = new Set(students.map(s => s.id));
+    const lessons = (m.lessons || []).map(l => ({
+      ...l,
+      sections: Array.isArray(l.sections) ? l.sections : [],
+      records: (l.records || []).filter(r => scopedIds.size === 0 || scopedIds.has(r.studentId))
+    }));
+    const tests = (m.tests || []).map(t => ({
+      ...t,
+      title: t.title || 'اختبار دوري',
+      sections: Array.isArray(t.sections) ? t.sections : [],
+      records: Array.isArray(t.records) ? t.records : []
+    }));
+    const juzRecords = Array.isArray(m.juzRecords) ? m.juzRecords : [];
+    const examAppointments = Array.isArray(m.examAppointments) ? m.examAppointments : [];
+    const examScheduleGroups = Array.isArray(m.examScheduleGroups) ? m.examScheduleGroups : [];
+    return {
+      id: m.id || generateId(),
+      name: (m.name || 'مسجد').trim(),
+      students,
+      lessons,
+      tests,
+      juzRecords,
+      examAppointments,
+      examScheduleGroups
+    };
+  });
+  return { mosques };
+}
+
+function getCurrentMosque() {
+  return db.mosques.find(m => m.id === currentMosqueId) || null;
+}
+
+// ==================== DUPLICATE STUDENT DETECTOR ====================
+function normalizeStudentName(name) {
+  return (name || '').trim().toLowerCase()
+    .replace(/[\u064B-\u065F\u0670\u0640]/g, '')
+    .replace(/[أإآٱ]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .replace(/\s+/g, ' ');
+}
+
+function findDuplicates() {
+  const allInstances = [];
+  for (const m of db.mosques) {
+    for (const s of (m.students || [])) {
+      const lessonsCount = (m.lessons || []).filter(l => (l.records || []).some(r => r.studentId === s.id)).length;
+      const testsCount = (m.tests || []).filter(t => (t.records || []).some(r => r.studentId === s.id)).length;
+      allInstances.push({
+        student: s,
+        mosqueId: m.id,
+        mosqueName: m.name,
+        department: normalizeDept(s.department),
+        lessonsCount,
+        testsCount
+      });
+    }
+  }
+  const map = new Map();
+  for (const inst of allInstances) {
+    const norm = normalizeStudentName(inst.student.fullName);
+    if (!norm) continue;
+    if (!map.has(norm)) map.set(norm, []);
+    map.get(norm).push(inst);
+  }
+  const groups = [];
+  for (const [norm, instances] of map.entries()) {
+    if (instances.length < 2) continue;
+    const mosqueIds = new Set(instances.map(i => i.mosqueId));
+    const depts = new Set(instances.map(i => i.department));
+    let duplicateType = 'SAME_SECTION';
+    let typeTitle = 'تكرار في نفس القسم';
+    if (mosqueIds.size > 1) {
+      duplicateType = 'CROSS_MOSQUE';
+      typeTitle = 'مسجل في أكثر من مسجد/حلقة';
+    } else if (depts.size > 1) {
+      duplicateType = 'CROSS_SECTION';
+      typeTitle = 'مسجل في أكثر من قسم';
+    }
+    const key = norm + '_' + instances.map(i => `${i.mosqueId}:${i.student.id}`).sort().join(',');
+    if (!ignoredDuplicateKeys.has(key)) {
+      groups.push({
+        key,
+        normalizedName: norm,
+        displayName: instances[0].student.fullName,
+        instances,
+        duplicateType,
+        typeTitle
+      });
+    }
+  }
+  return groups;
+}
+
+// ==================== REWARD CALCULATOR ====================
+function calculateRewards(mosque, lessonsOverride) {
+  const students = mosque.students || [];
+  if (students.length === 0) return [];
+  const lessons = lessonsOverride || mosque.lessons || [];
+  const tests = mosque.tests || [];
+
+  const stats = students.map(s => {
+    const sRecords = [];
+    lessons.forEach(l => (l.records || []).forEach(r => { if (r.studentId === s.id) sRecords.push(r); }));
+    const sTests = [];
+    tests.forEach(t => (t.records || []).forEach(r => { if (r.studentId === s.id) sTests.push(r); }));
+
+    const presentCount = sRecords.filter(r => r.attendance === 'حضور').length;
+    const absentCount = sRecords.filter(r => r.attendance === 'غائب').length;
+    const excusedCount = sRecords.filter(r => r.attendance === 'إذن').length;
+    const politeCount = sRecords.filter(r => r.behavior === 'مؤدب').length + sTests.filter(r => r.behavior === 'مؤدب').length;
+    const fullMarksCount = sRecords.filter(r => (r.grade || '').includes('100') || (r.grade || '').includes('ممتاز')).length
+                         + sTests.filter(r => (r.grade || '').includes('100') || (r.grade || '').includes('ممتاز')).length;
+
+    let category = 'تلاوة';
+    const dept = normalizeDept(s.department);
+    if (dept.includes('رشيدي')) category = 'رشيدي';
+    else if (dept.includes('غيب')) category = 'قرآن غيباً';
+
+    return {
+      studentId: s.id,
+      studentName: s.fullName,
+      category,
+      fullMarksCount,
+      politeCount,
+      presentCount,
+      absentCount,
+      excusedCount,
+      behaviorStatus: politeCount > 0 ? `🌟 مؤدب (${politeCount})` : 'منتظم'
+    };
+  });
+
+  const categories = ['تلاوة', 'رشيدي', 'قرآن غيباً'];
+  const finalRewards = [];
+  categories.forEach(cat => {
+    const catList = stats.filter(x => x.category === cat).sort((a, b) => {
+      if (b.fullMarksCount !== a.fullMarksCount) return b.fullMarksCount - a.fullMarksCount;
+      if (b.politeCount !== a.politeCount) return b.politeCount - a.politeCount;
+      if (b.presentCount !== a.presentCount) return b.presentCount - a.presentCount;
+      return a.absentCount - b.absentCount;
+    });
+    catList.forEach((st, idx) => {
+      const rank = idx + 1;
+      const starsCount = rank <= 3 ? 3 : (rank <= 8 ? 2 : 1);
+      finalRewards.push({
+        ...st,
+        rankInCategory: rank,
+        starsCount,
+        starsDisplay: '⭐'.repeat(starsCount),
+        giftBadge: starsCount === 3 ? '🏆 3 نجوم (هدية كبرى)' : (starsCount === 2 ? '🎁 نجمتان (هدية مميزة)' : '⭐ نجمة (هدية تشجيعية)')
+      });
+    });
+  });
+  return finalRewards;
+}
+
+// ==================== NAVIGATION & RENDER ENGINE ====================
+function openMosque(id) {
+  currentMosqueId = id;
+  currentTab = 'SETTINGS';
+  openedLessonId = null;
+  openedTestId = null;
+  openedExamGroupId = null;
+  renderApp();
+}
+
+function goHome() {
+  saveDatabase();
+  currentMosqueId = null;
+  openedLessonId = null;
+  openedTestId = null;
+  openedExamGroupId = null;
+  renderApp();
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  openedLessonId = null;
+  openedTestId = null;
+  openedExamGroupId = null;
+  renderApp();
+}
+
+function renderApp() {
+  const mosque = getCurrentMosque();
+  const headerTitle = document.getElementById('headerTitle');
+  const headerSubtitle = document.getElementById('headerSubtitle');
+  const headerActions = document.getElementById('headerActions');
+  const bottomNav = document.getElementById('bottomNav');
+  const main = document.getElementById('appMain');
+
+  if (!mosque) {
+    headerTitle.textContent = 'إدارة الحلقات القرآنية';
+    headerSubtitle.textContent = 'نظام المتابعة والتسميع والتقارير (نسخة الحاسوب)';
+    bottomNav.style.display = 'none';
+    const dups = findDuplicates();
+    headerActions.innerHTML = `
+      <button class="btn btn-glass" onclick="ignoredDuplicateKeys.clear(); renderApp(); showToast('تم تحديث فحص التكرارات ✓');" title="تحديث البحث عن التكرارات">🔄 تحديث</button>
+      <button class="btn ${dups.length > 0 ? 'btn-rose' : 'btn-glass'}" onclick="openDuplicatesModal()">
+        🔔 ${dups.length > 0 ? dups.length + ' تكرار' : 'الإشعارات'}
+      </button>
+    `;
+    main.innerHTML = renderHomeScreen(dups);
+    return;
+  }
+
+  // Inside a Mosque
+  const subtitles = {
+    SETTINGS: 'قاعدة بيانات الطلاب',
+    LESSONS: openedLessonId ? 'تسجيل الدرس اليومي' : 'سجل الدروس اليومية',
+    TESTS: openedTestId ? 'إجراء الاختبار' : 'سجل الاختبارات الدورية',
+    JUZ: 'سجل الأجزاء والرشيدي',
+    REPORTS: 'التقرير الأسبوعي والتراكمي والمكافآت',
+    EXAM_SCHEDULE: 'مجموعات مواعيد الاختبارات'
+  };
+  headerTitle.textContent = mosque.name;
+  headerSubtitle.textContent = subtitles[currentTab] || '';
+  bottomNav.style.display = 'flex';
+
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === currentTab);
+  });
+
+  headerActions.innerHTML = `
+    <button class="btn btn-glass" onclick="goHome()">🏠 الرئيسية</button>
+  `;
+
+  // Calculate Attendance Rate
+  let present = 0, totalRecs = 0;
+  const scopedIds = new Set((mosque.students || []).map(s => s.id));
+  (mosque.lessons || []).forEach(l => {
+    (l.records || []).forEach(r => {
+      if (scopedIds.has(r.studentId) && r.attendance) {
+        totalRecs++;
+        if (r.attendance === 'حضور') present++;
+      }
+    });
+  });
+  const attRate = totalRecs > 0 ? Math.round((present / totalRecs) * 100) : 0;
+  const isEditorOpen = Boolean(openedLessonId || openedTestId || openedExamGroupId);
+
+  let html = '';
+  if (!isEditorOpen) {
+    html += `
+      <div class="surface-card no-print">
+        <div class="row-between">
+          <div>
+            <div style="font-size:17px;font-weight:800;color:var(--slate-900);">🕌 ${escapeHtml(mosque.name)}</div>
+            <div style="font-size:12px;color:var(--slate-500);">إجمالي الطلاب المسجلين في الحلقة: ${(mosque.students || []).length}</div>
+          </div>
+          <div class="row">
+            <button class="btn btn-emerald" onclick="saveDatabase(); showToast('تم حفظ جميع البيانات بنجاح ✓');">💾 حفظ</button>
+            <button class="btn btn-tonal-emerald" onclick="shareCurrentTabWhatsApp()">📲 نسخ واتساب</button>
+            <button class="btn btn-tonal-rose" onclick="window.print()">📄 طباعة / PDF</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid-3 no-print">
+        <div class="stat-card" style="background:rgba(14,124,107,0.08);border-color:rgba(14,124,107,0.2);">
+          <div class="stat-value" style="color:var(--brand-600);">${(mosque.students || []).length}</div>
+          <div class="stat-label">الطلبة</div>
+        </div>
+        <div class="stat-card" style="background:rgba(51,65,85,0.08);border-color:rgba(51,65,85,0.2);">
+          <div class="stat-value" style="color:var(--slate-700);">${(mosque.lessons || []).length}</div>
+          <div class="stat-label">الدروس</div>
+        </div>
+        <div class="stat-card" style="background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.2);">
+          <div class="stat-value" style="color:var(--emerald-600);">${attRate}%</div>
+          <div class="stat-label">نسبة الحضور</div>
+        </div>
+      </div>
+    `;
+  }
+
+  if (currentTab === 'SETTINGS') html += renderSettingsTab(mosque);
+  else if (currentTab === 'LESSONS') html += renderLessonsTab(mosque);
+  else if (currentTab === 'TESTS') html += renderTestsTab(mosque);
+  else if (currentTab === 'JUZ') html += renderJuzTab(mosque);
+  else if (currentTab === 'REPORTS') html += renderReportsTab(mosque);
+  else if (currentTab === 'EXAM_SCHEDULE') html += renderExamScheduleTab(mosque);
+
+  main.innerHTML = html;
+}
+
+// ==================== 1. HOME SCREEN ====================
+function renderHomeScreen(dups) {
+  const mosques = db.mosques || [];
+  const filtered = mosqueSearchQuery.trim()
+    ? mosques.filter(m => m.name.toLowerCase().includes(mosqueSearchQuery.trim().toLowerCase()))
+    : mosques;
+  const totalStudents = mosques.reduce((acc, m) => acc + (m.students || []).length, 0);
+  const totalLessons = mosques.reduce((acc, m) => acc + (m.lessons || []).length, 0);
+
+  return `
+    <!-- Duplicate Alert Banner -->
+    <div class="surface-card" style="background:${dups.length > 0 ? 'var(--rose-50)' : 'var(--brand-50)'};border-color:${dups.length > 0 ? 'var(--rose-300)' : 'var(--brand-200)'};cursor:pointer;" onclick="openDuplicatesModal()">
+      <div class="row-between">
+        <div>
+          <div style="font-weight:800;font-size:14px;color:${dups.length > 0 ? 'var(--rose-900)' : 'var(--brand-900)'};">
+            🔔 إشعارات الأسماء المكررة ${dups.length > 0 ? `<span class="badge-pill" style="background:var(--rose-600);color:#fff;">${dups.length} تنبيه</span>` : ''}
+          </div>
+          <div style="font-size:12px;color:${dups.length > 0 ? 'var(--rose-700)' : 'var(--slate-600)'};margin-top:3px;">
+            ${dups.length > 0 ? 'توجد أسماء طلاب مكررة؛ اضغط هنا لعرض مكان التكرار أو حذف النسخ المكررة.' : 'لا توجد أسماء مكررة حالياً. جميع قوائم الطلاب مفحوصة ومنظمة.'}
+          </div>
+        </div>
+        <button class="btn ${dups.length > 0 ? 'btn-rose' : 'btn-primary'}">${dups.length > 0 ? 'عرض التكرارات' : 'فحص'}</button>
+      </div>
+    </div>
+
+    <!-- Add Mosque Card -->
+    <div class="surface-card">
+      <div style="font-weight:800;color:var(--brand-700);margin-bottom:10px;">➕ إضافة مسجد / حلقة جديدة</div>
+      <div class="row" style="flex-wrap:nowrap;">
+        <input type="text" id="newMosqueInput" class="input-field" placeholder="اسم المسجد أو الحلقة القرآنية..." onkeydown="if(event.key==='Enter') handleAddMosque()">
+        <button class="btn btn-primary" style="height:40px;padding:0 20px;" onclick="handleAddMosque()">إضافة</button>
+      </div>
+    </div>
+
+    ${mosques.length > 0 ? `
+      <div class="grid-3">
+        <div class="stat-card" style="background:rgba(14,124,107,0.08);border-color:rgba(14,124,107,0.2);">
+          <div class="stat-value" style="color:var(--brand-600);">${mosques.length}</div>
+          <div class="stat-label">المساجد والحلقات</div>
+        </div>
+        <div class="stat-card" style="background:rgba(51,65,85,0.08);border-color:rgba(51,65,85,0.2);">
+          <div class="stat-value" style="color:var(--slate-700);">${totalStudents}</div>
+          <div class="stat-label">إجمالي الطلبة</div>
+        </div>
+        <div class="stat-card" style="background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.2);">
+          <div class="stat-value" style="color:var(--emerald-600);">${totalLessons}</div>
+          <div class="stat-label">إجمالي الدروس</div>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Backup & Restore Header -->
+    <div class="surface-card">
+      <div class="row-between">
+        <div style="font-weight:800;font-size:15px;">المساجد والحلقات (${mosques.length})</div>
+        <div class="row">
+          <button class="btn btn-tonal-slate" onclick="exportBackupJson()">⬇️ نسخ احتياطي (JSON)</button>
+          <button class="btn btn-tonal-brand" onclick="document.getElementById('restoreFileInput').click()">⬆️ استعادة نسخة احتياطية</button>
+        </div>
+      </div>
+      ${mosques.length > 2 ? `
+        <div style="margin-top:10px;">
+          <input type="text" class="input-field" placeholder="🔍 بحث عن مسجد أو حلقة..." value="${escapeHtml(mosqueSearchQuery)}" oninput="mosqueSearchQuery=this.value; renderApp();">
+        </div>
+      ` : ''}
+    </div>
+
+    <!-- Mosque Cards List -->
+    ${filtered.length === 0 ? `
+      <div class="surface-card" style="text-align:center;padding:42px 20px;">
+        <div style="font-size:36px;margin-bottom:8px;">🕌</div>
+        <div style="font-weight:700;color:var(--slate-700);">لا توجد مساجد أو حلقات مضافة حالياً</div>
+        <div style="font-size:13px;color:var(--slate-500);margin-top:4px;">أدخل اسم المسجد في الأعلى أو قم باستعادة ملف النسخة الاحتياطية من هاتفك</div>
+      </div>
+    ` : `
+      <div class="grid-2">
+        ${filtered.map(m => `
+          <div class="surface-card" style="margin-bottom:0;cursor:pointer;transition:transform 0.12s;" onclick="openMosque('${m.id}')">
+            <div class="row-between">
+              <div>
+                <div style="font-size:16px;font-weight:800;color:var(--slate-900);">🕌 ${escapeHtml(m.name)}</div>
+                <div class="row" style="margin-top:8px;gap:6px;">
+                  <span class="badge-pill" style="background:var(--brand-50);color:var(--brand-700);">${(m.students||[]).length} طالب</span>
+                  <span class="badge-pill" style="background:var(--slate-100);color:var(--slate-700);">${(m.lessons||[]).length} درس</span>
+                  <span class="badge-pill" style="background:var(--gold-50);color:var(--amber-700);">${(m.tests||[]).length} اختبار</span>
+                </div>
+              </div>
+              <div class="row" onclick="event.stopPropagation()">
+                <button class="btn btn-tonal-slate" onclick="promptEditMosque('${m.id}')" title="تعديل الاسم">✏️</button>
+                <button class="btn btn-tonal-rose" onclick="confirmDeleteMosque('${m.id}')" title="حذف المسجد">🗑️</button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+}
+
+function handleAddMosque() {
+  const inp = document.getElementById('newMosqueInput');
+  const name = (inp ? inp.value : '').trim();
+  if (!name) { showToast('يرجى كتابة اسم المسجد أو الحلقة'); return; }
+  db.mosques.push({
+    id: generateId(),
+    name,
+    students: [],
+    lessons: [],
+    tests: [],
+    juzRecords: [],
+    examAppointments: [],
+    examScheduleGroups: []
+  });
+  saveDatabase();
+  renderApp();
+  showToast('تمت إضافة الحلقة بنجاح ✓');
+}
+
+function promptEditMosque(mosqueId) {
+  const m = db.mosques.find(x => x.id === mosqueId);
+  if (!m) return;
+  const newName = prompt('تعديل اسم المسجد / الحلقة:', m.name);
+  if (newName && newName.trim()) {
+    m.name = newName.trim();
+    (m.students || []).forEach(s => s.sourceMosqueName = m.name);
+    saveDatabase();
+    renderApp();
+    showToast('تم تعديل الاسم بنجاح ✓');
+  }
+}
+
+function confirmDeleteMosque(mosqueId) {
+  const m = db.mosques.find(x => x.id === mosqueId);
+  if (!m) return;
+  if (confirm(`هل أنت متأكد من حذف "${m.name}" بالكامل مع جميع طلابه وسجلاته؟`)) {
+    db.mosques = db.mosques.filter(x => x.id !== mosqueId);
+    saveDatabase();
+    renderApp();
+    showToast('تم حذف المسجد');
+  }
+}
+
+function exportBackupJson() {
+  const dataStr = JSON.stringify(db, null, 2);
+  const blob = new Blob([dataStr], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `mosque_backup_${formatDateDDMMYYYY(new Date()).replace(/\//g,'-')}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('تم تصدير النسخة الاحتياطية بنجاح ✓');
+}
+
+function handleRestoreFile(ev) {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (parsed && Array.isArray(parsed.mosques)) {
+        if (confirm('تحذير: استعادة النسخة الاحتياطية ستستبدل البيانات الحالية بالبيانات المستوردة. هل تود المتابعة؟')) {
+          db = normalizeDb(parsed);
+          saveDatabase();
+          currentMosqueId = null;
+          renderApp();
+          showToast('تمت استعادة البيانات بنجاح ✓');
+        }
+      } else {
+        alert('ملف JSON غير صالح أو لا يطابق هيكلية إدارة الحلقات.');
+      }
+    } catch (err) {
+      alert('فشل قراءة ملف النسخة الاحتياطية.');
+    }
+    ev.target.value = '';
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+// ==================== 2. SETTINGS (STUDENTS) TAB ====================
+function renderSettingsTab(mosque) {
+  const students = mosque.students || [];
+  const filtered = students.filter(s => {
+    const matchDept = selectedDeptFilter === 'الكل' || normalizeDept(s.department) === selectedDeptFilter;
+    const matchName = !studentSearchQuery.trim() || s.fullName.toLowerCase().includes(studentSearchQuery.trim().toLowerCase());
+    return matchDept && matchName;
+  });
+
+  return `
+    <div class="surface-card no-print">
+      <div class="row-between" style="margin-bottom:10px;">
+        <div style="font-weight:800;color:var(--brand-700);">👤 إضافة طالب جديد</div>
+        <button class="btn btn-tonal-brand" onclick="openBulkAddModal()">👥 إضافة جماعية (قائمة أسماء)</button>
+      </div>
+      <div class="row" style="gap:8px;">
+        <input type="text" id="newStudentName" class="input-field" style="flex:2;min-width:200px;" placeholder="الاسم الثلاثي للطالب..." onkeydown="if(event.key==='Enter') handleAddStudent()">
+        <select id="newStudentDept" class="input-field" style="flex:1;min-width:150px;">
+          ${DEPTS.map(d => `<option value="${d}">${d}</option>`).join('')}
+        </select>
+        <button class="btn btn-primary" onclick="handleAddStudent()">➕ إضافة الطالب</button>
+      </div>
+    </div>
+
+    <div class="surface-card">
+      <div class="row-between no-print" style="margin-bottom:12px;">
+        <div class="row" style="gap:6px;">
+          ${['الكل', ...DEPTS].map(d => `
+            <span class="chip ${selectedDeptFilter === d ? 'active' : ''}" onclick="selectedDeptFilter='${d}'; renderApp();">${d}</span>
+          `).join('')}
+        </div>
+        <input type="text" class="input-field" style="max-width:260px;" placeholder="🔍 بحث عن اسم طالب..." value="${escapeHtml(studentSearchQuery)}" oninput="studentSearchQuery=this.value; renderApp();">
+      </div>
+
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:50px;">#</th>
+              <th>اسم الطالب</th>
+              <th>القسم</th>
+              <th class="no-print" style="width:140px;">إجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.length === 0 ? `<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--slate-500);">لا يوجد طلاب مطابقون للبحث</td></tr>` :
+              filtered.map((s, idx) => `
+                <tr>
+                  <td style="font-weight:700;color:var(--slate-500);">${idx + 1}</td>
+                  <td style="font-weight:700;">${escapeHtml(s.fullName)}</td>
+                  <td>
+                    <select class="input-field" style="padding:4px 8px;font-size:12px;width:auto;" onchange="updateStudentDept('${s.id}', this.value)">
+                      ${DEPTS.map(d => `<option value="${d}" ${normalizeDept(s.department)===d?'selected':''}>${d}</option>`).join('')}
+                    </select>
+                  </td>
+                  <td class="no-print">
+                    <button class="btn btn-tonal-slate" style="padding:4px 8px;" onclick="promptEditStudent('${s.id}')">✏️</button>
+                    <button class="btn btn-tonal-rose" style="padding:4px 8px;" onclick="deleteStudent('${s.id}')">🗑️</button>
+                  </td>
+                </tr>
+              `).join('')
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function handleAddStudent() {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const nameEl = document.getElementById('newStudentName');
+  const deptEl = document.getElementById('newStudentDept');
+  const fullName = (nameEl ? nameEl.value : '').trim();
+  const department = deptEl ? deptEl.value : 'قسم تلاوة';
+  if (!fullName) { showToast('يرجى إدخال اسم الطالب'); return; }
+
+  mosque.students.push({
+    id: generateId(),
+    fullName,
+    createdAt: Date.now(),
+    department,
+    sourceMosqueName: mosque.name
+  });
+  saveDatabase();
+  renderApp();
+  showToast('تمت إضافة الطالب ✓');
+}
+
+function openBulkAddModal() {
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `
+    <div class="modal-backdrop" onclick="closeModal()">
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <div style="font-size:17px;font-weight:800;margin-bottom:10px;">👥 إضافة جماعية للطلاب</div>
+        <div style="font-size:12px;color:var(--slate-600);margin-bottom:10px;">ضع كل اسم طالب في سطر مستقل ليتم إضافتهم دفعة واحدة:</div>
+        <select id="bulkDeptSelect" class="input-field" style="margin-bottom:10px;">
+          ${DEPTS.map(d => `<option value="${d}">${d}</option>`).join('')}
+        </select>
+        <textarea id="bulkNamesTextarea" class="input-field" rows="8" placeholder="أحمد محمد العلي&#10;خالد سعيد الحسن&#10;..."></textarea>
+        <div class="row" style="justify-content:flex-end;margin-top:14px;">
+          <button class="btn btn-tonal-slate" onclick="closeModal()">إلغاء</button>
+          <button class="btn btn-primary" onclick="confirmBulkAdd()">إضافة الجميع</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function confirmBulkAdd() {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const dept = document.getElementById('bulkDeptSelect').value;
+  const raw = document.getElementById('bulkNamesTextarea').value;
+  const lines = raw.split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+  if (lines.length === 0) { showToast('لم يتم إدخال أي أسماء'); return; }
+  lines.forEach(fullName => {
+    mosque.students.push({
+      id: generateId(),
+      fullName,
+      createdAt: Date.now(),
+      department: dept,
+      sourceMosqueName: mosque.name
+    });
+  });
+  saveDatabase();
+  closeModal();
+  renderApp();
+  showToast(`تمت إضافة ${lines.length} طالب بنجاح ✓`);
+}
+
+function updateStudentDept(studentId, newDept) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const st = mosque.students.find(s => s.id === studentId);
+  if (st) {
+    st.department = normalizeDept(newDept);
+    saveDatabase();
+    showToast('تم تحديث القسم ✓');
+  }
+}
+
+function promptEditStudent(studentId) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const st = mosque.students.find(s => s.id === studentId);
+  if (!st) return;
+  const n = prompt('تعديل اسم الطالب:', st.fullName);
+  if (n && n.trim()) {
+    st.fullName = n.trim();
+    saveDatabase();
+    renderApp();
+    showToast('تم تعديل اسم الطالب ✓');
+  }
+}
+
+function deleteStudent(studentId) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  if (confirm('هل أنت متأكد من حذف هذا الطالب؟')) {
+    mosque.students = mosque.students.filter(s => s.id !== studentId);
+    saveDatabase();
+    renderApp();
+    showToast('تم حذف الطالب');
+  }
+}
+
+// ==================== 3. LESSONS TAB ====================
+function renderLessonsTab(mosque) {
+  if (!openedLessonId) {
+    const lessons = mosque.lessons || [];
+    return `
+      <div class="surface-card no-print">
+        <div class="row-between">
+          <div style="font-weight:800;font-size:15px;">📖 سجل الدروس اليومية (${lessons.length})</div>
+          <button class="btn btn-primary" onclick="createNewLesson()">➕ بدء درس يومي جديد</button>
+        </div>
+      </div>
+      ${lessons.length === 0 ? `
+        <div class="surface-card" style="text-align:center;padding:36px;">
+          <div style="font-weight:700;color:var(--slate-600);">لا توجد دروس مسجلة بعد</div>
+          <div style="font-size:12px;color:var(--slate-500);margin-top:4px;">اضغط على "بدء درس يومي جديد" لتسجيل الحضور والتسميع</div>
+        </div>
+      ` : `
+        <div class="grid-2">
+          ${lessons.map(l => {
+            const recs = l.records || [];
+            const pres = recs.filter(r => r.attendance === 'حضور').length;
+            return `
+              <div class="surface-card" style="margin-bottom:0;cursor:pointer;" onclick="openedLessonId='${l.id}'; renderApp();">
+                <div class="row-between">
+                  <div>
+                    <div style="font-weight:800;font-size:15px;color:var(--brand-800);">📅 ${escapeHtml(l.day)} - ${escapeHtml(l.dateStr)}</div>
+                    <div style="font-size:12px;color:var(--slate-600);margin-top:4px;">
+                      الحضور: <b>${pres}</b> من <b>${recs.length}</b> طالب
+                    </div>
+                  </div>
+                  <div class="row" onclick="event.stopPropagation()">
+                    <button class="btn btn-tonal-rose" style="padding:5px 9px;" onclick="deleteLesson('${l.id}')">🗑️</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `}
+    `;
+  }
+
+  const lesson = (mosque.lessons || []).find(l => l.id === openedLessonId);
+  if (!lesson) { openedLessonId = null; return renderLessonsTab(mosque); }
+
+  const records = (lesson.records || []).filter(r => {
+    const matchSearch = !lessonSearchQuery.trim() || r.studentName.toLowerCase().includes(lessonSearchQuery.trim().toLowerCase());
+    if (!matchSearch) return false;
+    if (lessonStatusFilter === 'حضور' || lessonStatusFilter === 'غائب' || lessonStatusFilter === 'إذن') return r.attendance === lessonStatusFilter;
+    if (lessonStatusFilter === 'تم التسميع') return Boolean(r.page && r.page.trim());
+    if (lessonStatusFilter === 'لم يُسمّع') return !Boolean(r.page && r.page.trim());
+    return true;
+  });
+
+  return `
+    <div class="surface-card no-print">
+      <div class="row-between">
+        <div class="row">
+          <button class="btn btn-tonal-slate" onclick="openedLessonId=null; renderApp();">➡️ رجوع للدروس</button>
+          <div>
+            <div style="font-weight:800;font-size:16px;">📖 درس: ${escapeHtml(lesson.day)} ${escapeHtml(lesson.dateStr)}</div>
+            <div style="font-size:12px;color:var(--slate-500);">عدد الطلاب في السجل: ${(lesson.records||[]).length}</div>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn btn-emerald" onclick="saveDatabase(); showToast('تم حفظ سجل الدرس ✓');">💾 حفظ</button>
+          <button class="btn btn-tonal-emerald" onclick="shareCurrentTabWhatsApp()">📲 واتساب</button>
+          <button class="btn btn-tonal-rose" onclick="window.print()">📄 PDF</button>
+        </div>
+      </div>
+      <div class="row-between" style="margin-top:12px;">
+        <div class="row" style="gap:5px;">
+          ${['الكل', 'تم التسميع', 'لم يُسمّع', 'حضور', 'غائب', 'إذن'].map(st => `
+            <span class="chip ${lessonStatusFilter===st?'active':''}" onclick="lessonStatusFilter='${st}'; renderApp();">${st}</span>
+          `).join('')}
+        </div>
+        <div class="row">
+          <button class="btn btn-tonal-brand" onclick="markAllLessonAttendance('${lesson.id}', 'حضور')">✓ تحضير الجميع</button>
+          <input type="text" class="input-field" style="width:210px;" placeholder="🔍 بحث عن طالب..." value="${escapeHtml(lessonSearchQuery)}" oninput="lessonSearchQuery=this.value; renderApp();">
+        </div>
+      </div>
+    </div>
+
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>الطالب</th>
+            <th>الحضور</th>
+            <th>السلوك</th>
+            <th>النوع</th>
+            <th>الصفحة / المقدار</th>
+            <th>التقدير</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${records.map(r => `
+            <tr>
+              <td style="font-weight:700;">${escapeHtml(r.studentName)}</td>
+              <td>
+                <select class="input-field" style="padding:4px 6px;font-size:12px;" onchange="updateLessonRec('${lesson.id}','${r.studentId}','attendance',this.value)">
+                  ${['حضور','غائب','إذن'].map(a => `<option value="${a}" ${r.attendance===a?'selected':''}>${a}</option>`).join('')}
+                </select>
+              </td>
+              <td>
+                <select class="input-field" style="padding:4px 6px;font-size:12px;" onchange="updateLessonRec('${lesson.id}','${r.studentId}','behavior',this.value)">
+                  ${BEHAVIORS.map(b => `<option value="${b}" ${(r.behavior||'')===b?'selected':''}>${b || '-- عادي --'}</option>`).join('')}
+                </select>
+              </td>
+              <td>
+                <select class="input-field" style="padding:4px 6px;font-size:12px;" onchange="updateLessonRec('${lesson.id}','${r.studentId}','type',this.value)">
+                  ${LESSON_TYPES.map(t => `<option value="${t}" ${(r.type||'تلاوة')===t?'selected':''}>${t}</option>`).join('')}
+                </select>
+              </td>
+              <td>
+                <input type="text" class="input-field" style="padding:4px 8px;font-size:12px;min-width:110px;" placeholder="رقم الصفحة / الدرس..." value="${escapeHtml(r.page||'')}" onchange="updateLessonRec('${lesson.id}','${r.studentId}','page',this.value)">
+              </td>
+              <td>
+                <select class="input-field" style="padding:4px 6px;font-size:12px;" onchange="updateLessonRec('${lesson.id}','${r.studentId}','grade',this.value)">
+                  <option value="">-- التقدير --</option>
+                  ${GRADES.map(g => `<option value="${g}" ${(r.grade||'')===g?'selected':''}>${g}</option>`).join('')}
+                </select>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function createNewLesson() {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  if ((mosque.students || []).length === 0) {
+    showToast('يرجى إضافة طلاب أولاً في تبويب الطلبة');
+    return;
+  }
+  const now = new Date();
+  const day = getArabicDayName(now);
+  const dateStr = formatDateDDMMYYYY(now);
+  const newLesson = {
+    id: generateId(),
+    dateFull: `${day} ${dateStr}`,
+    day,
+    dateStr,
+    timestamp: Date.now(),
+    sections: [...DEPTS],
+    records: mosque.students.map(s => ({
+      studentId: s.id,
+      studentName: s.fullName,
+      attendance: 'حضور',
+      behavior: '',
+      type: defaultTypeForDept(s.department),
+      page: '',
+      grade: '',
+      optTestType: '',
+      optTestInfo: '',
+      studentDepartment: normalizeDept(s.department),
+      studentMosqueName: mosque.name
+    }))
+  };
+  mosque.lessons.unshift(newLesson);
+  openedLessonId = newLesson.id;
+  saveDatabase();
+  renderApp();
+  showToast('تم إنشاء درس جديد ✓');
+}
+
+function updateLessonRec(lessonId, studentId, field, value) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const lesson = (mosque.lessons || []).find(l => l.id === lessonId);
+  if (!lesson) return;
+  const rec = (lesson.records || []).find(r => r.studentId === studentId);
+  if (rec) {
+    rec[field] = toStandardDigits(value);
+    saveDatabase();
+  }
+}
+
+function markAllLessonAttendance(lessonId, status) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const lesson = (mosque.lessons || []).find(l => l.id === lessonId);
+  if (!lesson) return;
+  (lesson.records || []).forEach(r => r.attendance = status);
+  saveDatabase();
+  renderApp();
+  showToast('تم تحديث الحضور للجميع ✓');
+}
+
+function deleteLesson(lessonId) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  if (confirm('هل أنت متأكد من حذف هذا الدرس؟')) {
+    mosque.lessons = mosque.lessons.filter(l => l.id !== lessonId);
+    saveDatabase();
+    renderApp();
+    showToast('تم حذف الدرس');
+  }
+}
+
+// ==================== 4. TESTS TAB ====================
+function renderTestsTab(mosque) {
+  if (!openedTestId) {
+    const tests = mosque.tests || [];
+    return `
+      <div class="surface-card no-print">
+        <div class="row-between">
+          <div style="font-weight:800;font-size:15px;">📝 سجل الاختبارات الدورية (${tests.length})</div>
+          <button class="btn btn-primary" onclick="createNewTest()">➕ إنشاء اختبار جديد</button>
+        </div>
+      </div>
+      ${tests.length === 0 ? `
+        <div class="surface-card" style="text-align:center;padding:36px;color:var(--slate-500);">
+          لا توجد اختبارات مسجلة حالياً
+        </div>
+      ` : `
+        <div class="grid-2">
+          ${tests.map(t => `
+            <div class="surface-card" style="margin-bottom:0;cursor:pointer;" onclick="openedTestId='${t.id}'; renderApp();">
+              <div class="row-between">
+                <div>
+                  <div style="font-weight:800;font-size:15px;color:var(--brand-800);">📝 ${escapeHtml(t.title || 'اختبار دوري')}</div>
+                  <div style="font-size:12px;color:var(--slate-500);margin-top:4px;">${escapeHtml(t.day || '')} ${escapeHtml(t.dateStr || '')} • ${(t.records||[]).length} طالب</div>
+                </div>
+                <button class="btn btn-tonal-rose" onclick="event.stopPropagation(); deleteTest('${t.id}')">🗑️</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `}
+    `;
+  }
+
+  const test = (mosque.tests || []).find(t => t.id === openedTestId);
+  if (!test) { openedTestId = null; return renderTestsTab(mosque); }
+
+  return `
+    <div class="surface-card no-print">
+      <div class="row-between">
+        <div class="row">
+          <button class="btn btn-tonal-slate" onclick="openedTestId=null; renderApp();">➡️ رجوع للاختبارات</button>
+          <input type="text" class="input-field" style="width:240px;font-weight:700;" value="${escapeHtml(test.title||'اختبار دوري')}" onchange="test.title=this.value; saveDatabase();">
+        </div>
+        <div class="row">
+          <button class="btn btn-emerald" onclick="saveDatabase(); showToast('تم حفظ الاختبار ✓');">💾 حفظ</button>
+          <button class="btn btn-tonal-emerald" onclick="shareCurrentTabWhatsApp()">📲 واتساب</button>
+          <button class="btn btn-tonal-rose" onclick="window.print()">📄 PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>الطالب</th>
+            <th>الحضور</th>
+            <th>مادة الاختبار</th>
+            <th>تفاصيل الاختبار / الأجزاء</th>
+            <th>التقدير / الدرجة</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${(test.records || []).map(r => `
+            <tr>
+              <td style="font-weight:700;">${escapeHtml(r.studentName)}</td>
+              <td>
+                <select class="input-field" style="padding:4px 6px;font-size:12px;" onchange="updateTestRec('${test.id}','${r.studentId}','attendance',this.value)">
+                  ${['حضور','غائب','إذن'].map(a => `<option value="${a}" ${r.attendance===a?'selected':''}>${a}</option>`).join('')}
+                </select>
+              </td>
+              <td>
+                <select class="input-field" style="padding:4px 6px;font-size:12px;" onchange="updateTestRec('${test.id}','${r.studentId}','type',this.value)">
+                  ${LESSON_TYPES.map(tp => `<option value="${tp}" ${(r.type||'تلاوة')===tp?'selected':''}>${tp}</option>`).join('')}
+                </select>
+              </td>
+              <td>
+                <input type="text" class="input-field" style="padding:4px 8px;font-size:12px;" placeholder="الجزء / الصفحات..." value="${escapeHtml(r.info||'')}" onchange="updateTestRec('${test.id}','${r.studentId}','info',this.value)">
+              </td>
+              <td>
+                <select class="input-field" style="padding:4px 6px;font-size:12px;" onchange="updateTestRec('${test.id}','${r.studentId}','grade',this.value)">
+                  <option value="">-- التقدير --</option>
+                  ${GRADES.map(g => `<option value="${g}" ${(r.grade||'')===g?'selected':''}>${g}</option>`).join('')}
+                </select>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function createNewTest() {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const title = prompt('عنوان الاختبار الجديد:', 'اختبار دوري') || 'اختبار دوري';
+  const now = new Date();
+  const day = getArabicDayName(now);
+  const dateStr = formatDateDDMMYYYY(now);
+  const newTest = {
+    id: generateId(),
+    title,
+    dateFull: `${day} ${dateStr}`,
+    day,
+    dateStr,
+    timestamp: Date.now(),
+    sections: [...DEPTS],
+    records: (mosque.students || []).map(s => ({
+      studentId: s.id,
+      studentName: s.fullName,
+      attendance: 'حضور',
+      behavior: '',
+      type: defaultTypeForDept(s.department),
+      info: '',
+      grade: '',
+      studentDepartment: normalizeDept(s.department),
+      studentMosqueName: mosque.name
+    }))
+  };
+  mosque.tests.unshift(newTest);
+  openedTestId = newTest.id;
+  saveDatabase();
+  renderApp();
+}
+
+function updateTestRec(testId, studentId, field, value) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const test = (mosque.tests || []).find(t => t.id === testId);
+  if (!test) return;
+  const rec = (test.records || []).find(r => r.studentId === studentId);
+  if (rec) {
+    rec[field] = toStandardDigits(value);
+    saveDatabase();
+  }
+}
+
+function deleteTest(testId) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  if (confirm('هل أنت متأكد من حذف هذا الاختبار؟')) {
+    mosque.tests = mosque.tests.filter(t => t.id !== testId);
+    saveDatabase();
+    renderApp();
+  }
+}
+
+// ==================== 5. JUZ TAB ====================
+function renderJuzTab(mosque) {
+  const records = mosque.juzRecords || [];
+  return `
+    <div class="surface-card no-print">
+      <div style="font-weight:800;color:var(--brand-700);margin-bottom:10px;">🔖 تسجيل إنجاز جزء أو رشيدي لطالب</div>
+      <div class="row" style="gap:8px;">
+        <select id="juzStudentSelect" class="input-field" style="flex:2;min-width:180px;">
+          ${(mosque.students || []).map(s => `<option value="${s.id}">${escapeHtml(s.fullName)}</option>`).join('')}
+        </select>
+        <select id="juzCurriculumSelect" class="input-field" style="flex:1;min-width:130px;" onchange="toggleJuzInputMode()">
+          <option value="قرآن">قرآن</option>
+          <option value="قرآن غيباً">قرآن غيباً</option>
+          <option value="رشيدي">رشيدي</option>
+          <option value="تجويد">تجويد</option>
+        </select>
+        <input type="text" id="juzNumbersInput" class="input-field" style="flex:1;min-width:140px;" placeholder="رقم الجزء (مثال: 1 أو 1,2,3)" value="1">
+        <select id="juzRashidiSelect" class="input-field" style="flex:1;min-width:140px;display:none;">
+          <option value="رشيدي كامل">رشيدي كامل</option>
+          <option value="رشيدي قسم أول">رشيدي قسم أول</option>
+        </select>
+        <button class="btn btn-primary" onclick="handleAddJuzRecord()">➕ حفظ الإنجاز</button>
+      </div>
+    </div>
+
+    <div class="surface-card">
+      <div style="font-weight:800;margin-bottom:10px;">سجل الإنجازات والأجزاء (${records.length})</div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم الطالب</th>
+              <th>المنهاج</th>
+              <th>الإنجاز</th>
+              <th>التاريخ</th>
+              <th class="no-print">حذف</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${records.length === 0 ? `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--slate-500);">لا توجد سجلات أجزاء مضافة بعد</td></tr>` :
+              records.map((r, i) => {
+                const isRashidi = (r.curriculum || '').includes('رشيدي');
+                const details = isRashidi ? (r.rashidiType || 'رشيدي كامل') : `الأجزاء: ${(r.juzNumbers && r.juzNumbers.length ? r.juzNumbers.join('، ') : r.juzNumber)}`;
+                return `
+                  <tr>
+                    <td>${i + 1}</td>
+                    <td style="font-weight:700;">${escapeHtml(r.studentName)}</td>
+                    <td><span class="badge-pill" style="background:var(--brand-50);color:var(--brand-700);">${escapeHtml(r.curriculum)}</span></td>
+                    <td style="font-weight:700;color:var(--emerald-700);">${escapeHtml(details)}</td>
+                    <td>${escapeHtml(r.dateStr || '')}</td>
+                    <td class="no-print"><button class="btn btn-tonal-rose" style="padding:4px 8px;" onclick="deleteJuzRecord(${i})">🗑️</button></td>
+                  </tr>
+                `;
+              }).join('')
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function toggleJuzInputMode() {
+  const cur = document.getElementById('juzCurriculumSelect').value;
+  const isR = cur === 'رشيدي';
+  document.getElementById('juzNumbersInput').style.display = isR ? 'none' : 'block';
+  document.getElementById('juzRashidiSelect').style.display = isR ? 'block' : 'none';
+}
+
+function handleAddJuzRecord() {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const stId = document.getElementById('juzStudentSelect')?.value;
+  const student = (mosque.students || []).find(s => s.id === stId);
+  if (!student) { showToast('يرجى اختيار طالب'); return; }
+  const curriculum = document.getElementById('juzCurriculumSelect').value;
+  const rawNums = toStandardDigits(document.getElementById('juzNumbersInput').value);
+  const juzNumbers = rawNums.split(/[,\s،]+/).map(x => parseInt(x, 10)).filter(n => !isNaN(n) && n >= 1 && n <= 30);
+  const rashidiType = document.getElementById('juzRashidiSelect').value;
+
+  mosque.juzRecords.push({
+    studentId: student.id,
+    studentName: student.fullName,
+    curriculum,
+    juzNumber: juzNumbers[0] || 1,
+    juzNumbers: juzNumbers.length ? juzNumbers : [1],
+    rashidiType,
+    dateStr: formatDateDDMMYYYY(new Date())
+  });
+  saveDatabase();
+  renderApp();
+  showToast('تم حفظ إنجاز الطالب ✓');
+}
+
+function deleteJuzRecord(idx) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  mosque.juzRecords.splice(idx, 1);
+  saveDatabase();
+  renderApp();
+}
+
+// ==================== 6. REPORTS & REWARDS TAB ====================
+function renderReportsTab(mosque) {
+  const rewards = calculateRewards(mosque);
+  return `
+    <div class="surface-card no-print">
+      <div class="row-between">
+        <div class="row">
+          <span class="chip ${reportSubView==='RECORDS'?'active':''}" onclick="reportSubView='RECORDS'; renderApp();">📊 التقرير التراكمي للطلاب</span>
+          <span class="chip ${reportSubView==='REWARDS'?'active':''}" onclick="reportSubView='REWARDS'; renderApp();">🏆 لوحة النجوم والمكافآت (${rewards.length})</span>
+        </div>
+        <select class="input-field" style="max-width:260px;" onchange="reportStudentId=this.value; renderApp();">
+          <option value="all" ${reportStudentId==='all'?'selected':''}>جميع طلاب الحلقة (${(mosque.students||[]).length})</option>
+          ${(mosque.students||[]).map(s => `<option value="${s.id}" ${reportStudentId===s.id?'selected':''}>${escapeHtml(s.fullName)}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+
+    ${reportSubView === 'REWARDS' ? `
+      <div class="surface-card">
+        <div style="font-weight:800;font-size:16px;color:var(--brand-800);margin-bottom:12px;">🏆 تصنيف النجوم والمكافآت التشجيعية</div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>الترتيب</th>
+                <th>الطالب</th>
+                <th>الفئة</th>
+                <th>الحضور</th>
+                <th>مرات التميز (100/ممتاز)</th>
+                <th>السلوك</th>
+                <th>النجوم والمكافأة</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rewards.map(r => `
+                <tr>
+                  <td style="font-weight:800;">#${r.rankInCategory}</td>
+                  <td style="font-weight:700;">${escapeHtml(r.studentName)}</td>
+                  <td><span class="badge-pill" style="background:var(--brand-50);color:var(--brand-700);">${escapeHtml(r.category)}</span></td>
+                  <td>${r.presentCount} حضور / ${r.absentCount} غياب</td>
+                  <td style="font-weight:700;color:var(--emerald-700);">${r.fullMarksCount}</td>
+                  <td>${escapeHtml(r.behaviorStatus)}</td>
+                  <td><span class="badge-pill" style="background:var(--gold-50);color:var(--amber-800);">${escapeHtml(r.giftBadge)}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : `
+      <div class="surface-card">
+        <div style="font-weight:800;font-size:16px;margin-bottom:12px;">📊 ملخص أداء الطلاب في الدروس والاختبارات</div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>اسم الطالب</th>
+                <th>القسم</th>
+                <th>حضور</th>
+                <th>غياب</th>
+                <th>إذن</th>
+                <th>آخر تسميع</th>
+                <th>آخر تقدير</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(mosque.students || [])
+                .filter(s => reportStudentId === 'all' || s.id === reportStudentId)
+                .map((s, idx) => {
+                  let pres = 0, abs = 0, exc = 0, lastPage = '-', lastGrade = '-';
+                  (mosque.lessons || []).forEach(l => {
+                    const rec = (l.records || []).find(r => r.studentId === s.id);
+                    if (rec) {
+                      if (rec.attendance === 'حضور') pres++;
+                      else if (rec.attendance === 'غائب') abs++;
+                      else if (rec.attendance === 'إذن') exc++;
+                      if (lastPage === '-' && rec.page) lastPage = rec.page;
+                      if (lastGrade === '-' && rec.grade) lastGrade = rec.grade;
+                    }
+                  });
+                  return `
+                    <tr>
+                      <td>${idx + 1}</td>
+                      <td style="font-weight:700;">${escapeHtml(s.fullName)}</td>
+                      <td>${escapeHtml(normalizeDept(s.department))}</td>
+                      <td style="color:var(--emerald-600);font-weight:700;">${pres}</td>
+                      <td style="color:var(--rose-600);font-weight:700;">${abs}</td>
+                      <td style="color:var(--amber-600);font-weight:700;">${exc}</td>
+                      <td>${escapeHtml(lastPage)}</td>
+                      <td style="font-weight:700;">${escapeHtml(lastGrade)}</td>
+                    </tr>
+                  `;
+                }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `}
+  `;
+}
+
+// ==================== 7. EXAM SCHEDULE TAB ====================
+function renderExamScheduleTab(mosque) {
+  const appts = mosque.examAppointments || [];
+  return `
+    <div class="surface-card no-print">
+      <div style="font-weight:800;color:var(--brand-700);margin-bottom:10px;">🗓️ إضافة موعد اختبار جديد لطالب</div>
+      <div class="row" style="gap:8px;">
+        <select id="apptStudentSelect" class="input-field" style="flex:2;min-width:180px;">
+          ${(mosque.students || []).map(s => `<option value="${s.id}">${escapeHtml(s.fullName)}</option>`).join('')}
+        </select>
+        <select id="apptSectionSelect" class="input-field" style="flex:1;min-width:120px;">
+          <option value="تلاوة">تلاوة (أجزاء)</option>
+          <option value="رشيدي">رشيدي</option>
+        </select>
+        <input type="text" id="apptDetailsInput" class="input-field" style="flex:1;min-width:150px;" placeholder="رقم الجزء أو نوع الرشيدي..." value="الجزء الأول">
+        <input type="text" id="apptDateInput" class="input-field" style="flex:1;min-width:140px;" placeholder="الموعد (مثال: السبت القادم)" value="لم يحدد">
+        <button class="btn btn-primary" onclick="handleAddAppointment()">➕ إضافة الموعد</button>
+      </div>
+    </div>
+
+    <div class="surface-card">
+      <div style="font-weight:800;margin-bottom:10px;">جدول مواعيد الاختبارات (${appts.length})</div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم الطالب</th>
+              <th>القسم</th>
+              <th>المطلوب للاختبار</th>
+              <th>موعد الاختبار</th>
+              <th>الحالة</th>
+              <th class="no-print">حذف</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${appts.length === 0 ? `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--slate-500);">لا توجد مواعيد مجدولة حالياً</td></tr>` :
+              appts.map((a, idx) => `
+                <tr>
+                  <td>${idx + 1}</td>
+                  <td style="font-weight:700;">${escapeHtml(a.studentName)}</td>
+                  <td>${escapeHtml(a.section)}</td>
+                  <td style="font-weight:700;color:var(--brand-700);">${escapeHtml(a.rashidiType || '')}</td>
+                  <td>
+                    <input type="text" class="input-field" style="padding:4px 8px;font-size:12px;width:130px;" value="${escapeHtml(a.appointmentDate || 'لم يحدد')}" onchange="updateApptField('${a.id}','appointmentDate',this.value)">
+                  </td>
+                  <td>
+                    <select class="input-field" style="padding:4px 8px;font-size:12px;width:120px;" onchange="updateApptField('${a.id}','status',this.value)">
+                      ${['مجدول','تم الاختبار','مؤجل'].map(st => `<option value="${st}" ${(a.status||'مجدول')===st?'selected':''}>${st}</option>`).join('')}
+                    </select>
+                  </td>
+                  <td class="no-print">
+                    <button class="btn btn-tonal-rose" style="padding:4px 8px;" onclick="deleteAppointment('${a.id}')">🗑️</button>
+                  </td>
+                </tr>
+              `).join('')
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function handleAddAppointment() {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const stId = document.getElementById('apptStudentSelect')?.value;
+  const student = (mosque.students || []).find(s => s.id === stId);
+  if (!student) { showToast('يرجى اختيار طالب'); return; }
+  const section = document.getElementById('apptSectionSelect').value;
+  const details = document.getElementById('apptDetailsInput').value.trim() || 'الجزء الأول';
+  const appointmentDate = document.getElementById('apptDateInput').value.trim() || 'لم يحدد';
+
+  mosque.examAppointments.push({
+    id: generateId(),
+    studentId: student.id,
+    studentName: student.fullName,
+    section,
+    rashidiType: details,
+    juzNumbers: [1],
+    appointmentDate,
+    notes: '',
+    status: 'مجدول',
+    createdAt: Date.now()
+  });
+  saveDatabase();
+  renderApp();
+  showToast('تمت إضافة الموعد ✓');
+}
+
+function updateApptField(apptId, field, val) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  const a = (mosque.examAppointments || []).find(x => x.id === apptId);
+  if (a) {
+    a[field] = val;
+    saveDatabase();
+  }
+}
+
+function deleteAppointment(apptId) {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  mosque.examAppointments = (mosque.examAppointments || []).filter(x => x.id !== apptId);
+  saveDatabase();
+  renderApp();
+}
+
+// ==================== DUPLICATES MODAL ====================
+function openDuplicatesModal() {
+  const dups = findDuplicates();
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `
+    <div class="modal-backdrop" onclick="closeModal()">
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="row-between" style="margin-bottom:12px;">
+          <div style="font-size:17px;font-weight:800;">🔔 فحص الأسماء المكررة (${dups.length})</div>
+          <button class="btn btn-tonal-slate" onclick="closeModal()">إغلاق</button>
+        </div>
+        ${dups.length === 0 ? `
+          <div style="text-align:center;padding:28px;color:var(--emerald-700);font-weight:700;">
+            ✅ ممتاز! لا توجد أي أسماء مكررة في جميع الحلقات.
+          </div>
+        ` : dups.map(g => `
+          <div class="surface-card" style="background:var(--slate-50);">
+            <div class="row-between">
+              <div>
+                <div style="font-weight:800;font-size:15px;">${escapeHtml(g.displayName)}</div>
+                <span class="badge-pill" style="background:var(--amber-50);color:var(--amber-800);">${escapeHtml(g.typeTitle)}</span>
+              </div>
+              <button class="btn btn-tonal-slate" onclick="ignoredDuplicateKeys.add('${g.key}'); openDuplicatesModal(); renderApp();">تجاهل</button>
+            </div>
+            <div style="margin-top:10px;">
+              ${g.instances.map(inst => `
+                <div class="row-between" style="padding:6px 8px;background:#fff;border-radius:8px;margin-top:5px;border:1px solid var(--slate-200);">
+                  <div style="font-size:12px;">
+                    <b>${escapeHtml(inst.mosqueName)}</b> • ${escapeHtml(inst.department)} (دروس: ${inst.lessonsCount}، اختبارات: ${inst.testsCount})
+                  </div>
+                  <button class="btn btn-tonal-rose" style="padding:3px 8px;font-size:11px;" onclick="deleteDuplicateInstance('${inst.mosqueId}','${inst.student.id}')">حذف هذه النسخة</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function deleteDuplicateInstance(mosqueId, studentId) {
+  const m = db.mosques.find(x => x.id === mosqueId);
+  if (!m) return;
+  m.students = (m.students || []).filter(s => s.id !== studentId);
+  saveDatabase();
+  openDuplicatesModal();
+  renderApp();
+  showToast('تم حذف النسخة المكررة ✓');
+}
+
+function closeModal() {
+  document.getElementById('modalRoot').innerHTML = '';
+}
+
+// ==================== WHATSAPP EXPORT ====================
+function shareCurrentTabWhatsApp() {
+  const mosque = getCurrentMosque();
+  if (!mosque) return;
+  let text = `بسم الله الرحمن الرحيم\n🕌 *${mosque.name}*\n\n`;
+
+  if (currentTab === 'LESSONS' && openedLessonId) {
+    const l = (mosque.lessons || []).find(x => x.id === openedLessonId);
+    if (l) {
+      text += `📖 *سجل الدرس اليومي: ${l.day} - ${l.dateStr}*\n-----------------------------------\n`;
+      (l.records || []).forEach((r, idx) => {
+        text += `${idx + 1}. *${r.studentName}*: ${r.attendance}`;
+        if (r.page) text += ` | ${r.type || 'تلاوة'} (${r.page})`;
+        if (r.grade) text += ` | التقدير: ${r.grade}`;
+        if (r.behavior === 'مؤدب') text += ` 🌟`;
+        text += `\n`;
+      });
+    }
+  } else {
+    text += `📊 *قائمة طلاب الحلقة (${(mosque.students||[]).length} طالب)*\n-----------------------------------\n`;
+    (mosque.students || []).forEach((s, idx) => {
+      text += `${idx + 1}. ${s.fullName} (${normalizeDept(s.department)})\n`;
+    });
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('تم نسخ التقرير إلى الحافظة لإرساله عبر واتساب ✓');
+  }).catch(() => {
+    prompt('انسخ نص التقرير التالي:', text);
+  });
+}
+
+// Initialize on load
+loadDatabase();
+renderApp();
+</script>
+</body>
+</html>
